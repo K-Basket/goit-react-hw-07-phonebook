@@ -8,4 +8,5 @@
 // export const errorSelector = state => state.error;
 // export const filterSelector = state => state.filter;
 
-export const listSelector = state => state.list;
+// export const listSelector = state => state.list;
+export const listSelector = state => state.contacts;

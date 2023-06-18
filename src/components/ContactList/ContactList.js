@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import css from './ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact, getContactsThunk } from 'store/list/listSlice';
+import { deleteContactThunk, fetchContactsThunk } from 'store/list/listSlice';
 import { listSelector } from 'store/list/selectorsList';
 
 export function ContactList() {
@@ -12,11 +12,12 @@ export function ContactList() {
   // const filter = useSelector(filterSelector);
 
   const { items, filter } = useSelector(listSelector);
+  // console.log('items :>> ', items);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getContactsThunk());
+    dispatch(fetchContactsThunk());
   }, [dispatch]);
 
   // console.log('items :>> ', items);
@@ -41,9 +42,12 @@ export function ContactList() {
                 <span>: {phone}</span>
               </p>
 
-              <button onClick={() => dispatch(deleteContact(id))}>
+              <button onClick={() => dispatch(deleteContactThunk(id))}>
                 Delete
               </button>
+              {/* <button onClick={() => dispatch(deleteContact(id))}>
+                Delete
+              </button> */}
             </div>
           </li>
         ))}
