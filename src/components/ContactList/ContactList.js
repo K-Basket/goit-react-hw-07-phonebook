@@ -11,7 +11,7 @@ export function ContactList() {
 
   // const filter = useSelector(filterSelector);
 
-  const { items, isLoading, error, filter } = useSelector(listSelector);
+  const { items, filter } = useSelector(listSelector);
 
   const dispatch = useDispatch();
 
@@ -19,10 +19,10 @@ export function ContactList() {
     dispatch(getContactsThunk());
   }, [dispatch]);
 
-  console.log('items :>> ', items);
-  console.log('isLoading :>> ', isLoading);
-  console.log('error :>> ', error);
-  console.log('filter :>> ', filter);
+  // console.log('items :>> ', items);
+  // console.log('isLoading :>> ', isLoading);
+  // console.log('error :>> ', error);
+  // console.log('filter :>> ', filter);
 
   function getFiltered() {
     const normalizedFilter = filter.toLowerCase();

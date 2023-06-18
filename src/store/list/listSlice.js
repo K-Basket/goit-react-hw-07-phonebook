@@ -34,9 +34,15 @@ export const listSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(getContactsThunk.pending, handlePanding)
       .addCase(getContactsThunk.fulfilled, handleFulfilled)
-      .addCase(getContactsThunk.rejected, handleRejected);
+      // т.к. вызов .addCase(getContactsThunk.pending, handlePanding) часто дублируется
+      // и чтобы повторно его не вызывать применим addMatcher
+      .addMatcher(action => {
+        action.type.endsWith('/pending');
+      }, handlePanding)
+      .addMatcher(action => {
+        action.type.endsWith('/rejected');
+      }, handleRejected);
   },
 
   reducers: {
