@@ -2,14 +2,16 @@ import Notiflix from 'notiflix';
 import css from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setContacts } from 'store/list/listSlice';
-import { contactsSelector } from 'store/list/selectorsList';
+import { listSelector } from 'store/list/selectorsList';
 import { useState } from 'react';
 
 export function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const contacts = useSelector(contactsSelector);
+  // const contacts = useSelector(contactsSelector);
+  const { items } = useSelector(listSelector);
+
   const dispatch = useDispatch();
 
   function handleChange(evt) {
@@ -24,8 +26,8 @@ export function ContactForm() {
     const normalizedNumber = number.toLowerCase();
 
     if (
-      contacts.some(el => el.name.toLowerCase() === normalizedName) ||
-      contacts.some(el => el.number.toLowerCase() === normalizedNumber)
+      items.some(el => el.name.toLowerCase() === normalizedName) ||
+      items.some(el => el.number.toLowerCase() === normalizedNumber)
     ) {
       Notiflix.Notify.failure(`${name} is already in contacts`);
 
@@ -36,6 +38,27 @@ export function ContactForm() {
     setName('');
     setNumber('');
   }
+
+  // ======== backup ==========
+  // function handleSubmit(evt) {
+  //   evt.preventDefault();
+
+  //   const normalizedName = name.toLowerCase();
+  //   const normalizedNumber = number.toLowerCase();
+
+  //   if (
+  //     contacts.some(el => el.name.toLowerCase() === normalizedName) ||
+  //     contacts.some(el => el.number.toLowerCase() === normalizedNumber)
+  //   ) {
+  //     Notiflix.Notify.failure(`${name} is already in contacts`);
+
+  //     return;
+  //   }
+
+  //   dispatch(setContacts(name, number));
+  //   setName('');
+  //   setNumber('');
+  // }
 
   return (
     <form className={css.form} onSubmit={handleSubmit}>
