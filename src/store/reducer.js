@@ -1,6 +1,6 @@
-// import { combineReducers } from '@reduxjs/toolkit';
-// import { listReducer } from './list/listSlice';
+import { combineReducers } from '@reduxjs/toolkit';
+import { listReducer } from './list/listSlice';
 
-// export const reducer = combineReducers({
-//   list: listReducer,
-// });
+export const reducer = combineReducers({
+  list: listReducer,
+});

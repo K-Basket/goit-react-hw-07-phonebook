@@ -6,7 +6,7 @@ export function App() {
   return (
     <>
       <h1>Phonebook</h1>
-      <p>React Hooks & Redux toolkit</p>
+      <p>React Hooks & Redux toolkit (async)</p>
       <ContactForm />
 
       <h2>Contacts</h2>
