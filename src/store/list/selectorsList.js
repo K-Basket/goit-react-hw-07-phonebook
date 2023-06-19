@@ -1,12 +1,4 @@
-// export const listSelector = state => state;
-
-// export const contactsSelector = state => state.contacts;
-// export const filterSelector = state => state.filter;
-
-// export const itemsSelector = state => state.items;
-// export const isLoadingSelector = state => state.isLoading;
-// export const errorSelector = state => state.error;
-// export const filterSelector = state => state.filter;
-
-// export const listSelector = state => state.list;
-export const listSelector = state => state.contacts;
+export const listSelector = state => state.contacts.filter;
+export const itemsSelector = state => state.contacts.items;
+export const isLoadingSelector = state => state.contacts.isLoading;
+export const errorSelector = state => state.contacts.error;

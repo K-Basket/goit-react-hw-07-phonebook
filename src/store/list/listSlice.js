@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
-import { deleteContact, getContacts } from 'api/contactsApi';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { addContact, deleteContact, getContacts } from 'api/contactsApi';
 
 // делаем запрос на backend методом createAsyncThunk, создает автоматом экшены pending, fulfilled, rejected
 export const fetchContactsThunk = createAsyncThunk('contacts/fetchAll', () => {
@@ -13,8 +13,20 @@ export const deleteContactThunk = createAsyncThunk(
   }
 );
 
+export const addContactThunk = createAsyncThunk(
+  'contacts/addContact',
+  newContact => {
+    return addContact(newContact); // Запрос на backend
+  }
+);
+
 const handlePanding = state => {
   state.isLoading = true;
+};
+
+const handleRejected = (state, { payload }) => {
+  state.isLoading = false;
+  state.error = payload;
 };
 
 const handleFulfilled = (state, { payload }) => {
@@ -23,9 +35,10 @@ const handleFulfilled = (state, { payload }) => {
   state.error = '';
 };
 
-const handleRejected = (state, { payload }) => {
+const handleAddContact = (state, { payload }) => {
   state.isLoading = false;
-  state.error = payload;
+  state.items.push(payload);
+  state.error = '';
 };
 
 const handleDelete = (state, { payload }) => {
@@ -48,6 +61,7 @@ export const listSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchContactsThunk.fulfilled, handleFulfilled)
+      .addCase(addContactThunk.fulfilled, handleAddContact)
       .addCase(deleteContactThunk.fulfilled, handleDelete)
       // т.к. вызов .addCase(fetchContactsThunk.pending, handlePanding) часто дублируется
       // и чтобы повторно его не вызывать применим addMatcher
@@ -60,45 +74,11 @@ export const listSlice = createSlice({
   },
 
   reducers: {
-    setContacts: {
-      reducer(state, action) {
-        state.items.push(action.payload);
-      },
-      prepare(name, number) {
-        return {
-          payload: {
-            id: nanoid(),
-            name: name,
-            number: number,
-          },
-        };
-      },
-    },
-    // deleteContact: (state, action) => {
-    //   state.items = state.items.filter(el => el.id !== action.payload);
-    // },
-
     setFilter: (state, action) => {
       state.filter = action.payload;
     },
   },
-
-  // extraReducers: {
-  // [fetchContactsThunk.pending]: state => {
-  //   state.isLoading = true;
-  // },
-  // [fetchContactsThunk.fulfilled]: (state, { payload }) => {
-  //   state.isLoading = false;
-  //   state.items = payload;
-  //   state.error = '';
-  // },
-  // [fetchContactsThunk.rejected]: (state, { payload }) => {
-  //   state.isLoading = false;
-  //   state.error = payload;
-  // },
-  // },
 });
 
 export const listReducer = listSlice.reducer;
-// export const { setContacts, setFilter, deleteContact } = listSlice.actions;
-export const { setContacts, setFilter } = listSlice.actions;
+export const { setFilter } = listSlice.actions;

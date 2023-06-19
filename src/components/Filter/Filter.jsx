@@ -4,8 +4,7 @@ import { listSelector } from 'store/list/selectorsList';
 import { setFilter } from 'store/list/listSlice';
 
 export function Filter() {
-  // const filter = useSelector(filterSelector);
-  const { filter } = useSelector(listSelector);
+  const filter = useSelector(listSelector);
   const dispatch = useDispatch();
 
   function changeFilter(evt) {
