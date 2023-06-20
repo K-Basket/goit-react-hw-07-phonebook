@@ -66,10 +66,10 @@ export const listSlice = createSlice({
       // т.к. вызов .addCase(fetchContactsThunk.pending, handlePanding) часто дублируется
       // и чтобы повторно его не вызывать применим addMatcher
       .addMatcher(action => {
-        action.type.endsWith('/pending');
+        return action.type.endsWith('/pending');
       }, handlePanding)
       .addMatcher(action => {
-        action.type.endsWith('/rejected');
+        return action.type.endsWith('/rejected');
       }, handleRejected);
   },
 
